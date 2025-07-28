@@ -212,8 +212,15 @@ def fid_inception_v3():
     inception.Mixed_7b = FIDInceptionE_1(1280)
     inception.Mixed_7c = FIDInceptionE_2(2048)
 
-    state_dict = load_state_dict_from_url(FID_WEIGHTS_URL, progress=True)
-    inception.load_state_dict(state_dict)
+    try:
+        state_dict = load_state_dict_from_url(FID_WEIGHTS_URL, progress=True)
+        inception.load_state_dict(state_dict)
+    except Exception:
+        raise RuntimeError(
+            "Could not load FID Inception weights. "
+            "Please check your internet connection or download the weights manually "
+            "from " + FID_WEIGHTS_URL + " and place them in the correct directory."
+        )
     return inception
 
 

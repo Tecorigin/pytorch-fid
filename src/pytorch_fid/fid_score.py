@@ -63,7 +63,7 @@ parser.add_argument(
     ),
 )
 parser.add_argument(
-    "--device", type=str, default=None, help="Device to use. Like cuda, cuda:0 or cpu"
+    "--device", type=str, default=None, help="Device to use. Like sdaa, sdaa:0 or cpu"
 )
 parser.add_argument(
     "--dims",
@@ -324,7 +324,12 @@ def main():
     args = parser.parse_args()
 
     if args.device is None:
-        device = torch.device("cuda" if (torch.cuda.is_available()) else "cpu")
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+        elif torch.sdaa.is_available():
+            device = torch.device("sdaa")
+        else:
+            device = torch.device("cpu")
     else:
         device = torch.device(args.device)
 

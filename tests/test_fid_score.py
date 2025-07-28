@@ -8,7 +8,12 @@ from pytorch_fid import fid_score, inception
 
 @pytest.fixture
 def device():
-    return torch.device("cpu")
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    elif torch.sdaa.is_available():
+        return torch.device("sdaa")
+    else:
+        return torch.device("cpu")
 
 
 def test_calculate_fid_given_statistics(mocker, tmp_path, device):
@@ -54,7 +59,7 @@ def test_compute_statistics_of_path(mocker, tmp_path, device):
     paths = []
     for idx, image in enumerate(images):
         paths.append(str(tmp_path / "{}.png".format(idx)))
-        Image.fromarray(image, mode="RGB").save(paths[-1])
+        Image.fromarray(image).save(paths[-1])
 
     stats = fid_score.compute_statistics_of_path(
         str(tmp_path),
@@ -89,7 +94,7 @@ def test_compute_statistics_of_path_from_file(mocker, tmp_path, device):
 
 def test_image_types(tmp_path):
     in_arr = np.ones((24, 24, 3), dtype=np.uint8) * 255
-    in_image = Image.fromarray(in_arr, mode="RGB")
+    in_image = Image.fromarray(in_arr)
 
     paths = []
     for ext in fid_score.IMAGE_EXTENSIONS:
