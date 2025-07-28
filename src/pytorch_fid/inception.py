@@ -220,7 +220,7 @@ def fid_inception_v3():
             "Could not load FID Inception weights. "
             "Please check your internet connection or download the weights manually "
             "from " + FID_WEIGHTS_URL + " and place them in the correct directory."
-        )
+        ) from None  # 忽略原始异常
     return inception
 
 
