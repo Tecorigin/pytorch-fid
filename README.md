@@ -15,10 +15,10 @@ The weights and the model are exactly the same as in [the official Tensorflow im
 
 ## Installation
 
-Install from [pip](https://pypi.org/project/pytorch-fid/):
+Install from [pip](https://github.com/Tecorigin/pytorch-fid/):
 
 ```
-pip install pytorch-fid
+pip install pytorch_fid-0.3.0-py3-none-any.whl
 ```
 
 Requirements:
